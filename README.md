@@ -244,6 +244,53 @@ Visit `/docs` for interactive API documentation.
 | `ALGORITHM` | JWT algorithm | `HS256` |
 | `BACKEND_CORS_ORIGINS` | Allowed CORS origins | `["*"]` |
 
+## Deployment
+
+### Fly.io Deployment
+
+This project is configured for easy deployment to Fly.io, which pulls directly from GitHub Container Registry (GHCR).
+
+**Prerequisites:**
+- [Fly.io CLI](https://fly.io/docs/hands-on/install-flyctl/) installed
+- Fly.io account created
+
+**Initial Setup:**
+
+```bash
+# Run the setup script
+./scripts/fly-setup.sh
+```
+
+Or manually:
+
+```bash
+# 1. Login to Fly.io
+flyctl auth login
+
+# 2. Create app and PostgreSQL database
+flyctl launch --no-deploy
+
+# 3. Create and attach PostgreSQL
+flyctl postgres create --name flowlog-db
+flyctl postgres attach flowlog-db
+
+# 4. Set secrets
+flyctl secrets set SECRET_KEY=$(openssl rand -hex 32)
+
+# 5. Deploy
+flyctl deploy --image ghcr.io/smiileyface/flowlog-api:main
+```
+
+**Automatic Deployments:**
+
+Once set up, deployments happen automatically:
+1. Push to `main` branch
+2. GitHub Actions builds and tests
+3. Docker image pushed to GHCR
+4. Fly.io automatically pulls and deploys
+
+For detailed instructions, see [docs/FLY_DEPLOYMENT.md](docs/FLY_DEPLOYMENT.md)
+
 ## Contributing
 
 1. Fork the repository
