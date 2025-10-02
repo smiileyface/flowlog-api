@@ -1,0 +1,68 @@
+# Ruff configuration
+# https://docs.astral.sh/ruff/
+
+# Target Python 3.12
+target-version = "py312"
+
+# Same as Black
+line-length = 88
+
+# Exclude auto-generated and cache directories
+exclude = [
+  ".git",
+  ".ruff_cache",
+  ".venv",
+  "__pycache__",
+  "alembic/versions",
+  "build",
+  "dist",
+]
+
+[lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "N",   # pep8-naming
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "SIM", # flake8-simplify
+]
+
+ignore = [
+  "E501",  # Line too long (let formatter handle it)
+  "B008",  # Do not perform function calls in argument defaults (FastAPI uses this)
+  "UP007", # Use X | Y for type annotations (prefer explicit Optional/Union)
+]
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+[lint.per-file-ignores]
+# Ignore unused imports in __init__.py files
+"__init__.py" = ["F401"]
+# Allow star imports in Alembic migrations
+"alembic/env.py" = ["F403", "F405"]
+
+[lint.isort]
+known-first-party = ["app"]
+
+[lint.mccabe]
+# Max cyclomatic complexity
+max-complexity = 10
+
+[format]
+# Use double quotes for strings
+quote-style = "double"
+
+# Indent with spaces
+indent-style = "space"
+
+# Like Black, respect magic trailing commas
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect line endings
+line-ending = "auto"

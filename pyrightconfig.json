@@ -1,0 +1,50 @@
+{
+  // Pyright configuration
+  // https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+
+  // Python version and virtual environment
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.12",
+
+  // Type checking mode
+  "typeCheckingMode": "basic",
+
+  // Paths to include/exclude
+  "include": ["app", "alembic"],
+  "exclude": [
+    "**/__pycache__",
+    "**/.venv",
+    "**/node_modules",
+    "**/.pytest_cache",
+    "**/.ruff_cache",
+    "alembic/versions"
+  ],
+
+  // Reporting settings
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "reportUnusedImport": "warning",
+  "reportUnusedClass": "warning",
+  "reportUnusedFunction": "warning",
+  "reportUnusedVariable": "warning",
+  "reportDuplicateImport": "warning",
+  "reportOptionalMemberAccess": "none",
+  "reportOptionalSubscript": "none",
+  "reportPrivateImportUsage": "none",
+  "reportGeneralTypeIssues": "none",
+  "reportAttributeAccessIssue": "none",
+
+  // Strict settings (disabled for simplicity)
+  "strictListInference": false,
+  "strictDictionaryInference": false,
+  "strictSetInference": false,
+  "strictParameterNoneValue": false,
+
+  // Allow implicit string concatenation
+  "reportImplicitStringConcatenation": false,
+
+  // SQLAlchemy specific
+  "reportIncompatibleMethodOverride": "none",
+  "reportIncompatibleVariableOverride": "none"
+}

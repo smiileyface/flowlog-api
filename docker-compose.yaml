@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: flowlog_postgres
+    environment:
+      POSTGRES_DB: flowlog
+      POSTGRES_USER: flowlog_user
+      POSTGRES_PASSWORD: flowlog_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flowlog_user -d flowlog"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Development service with hot-reload
+  app-dev:
+    build:
+      context: .
+      target: development
+    container_name: flowlog_app_dev
+    ports:
+      - "8001:8000"
+    volumes:
+      # Mount source code for hot-reload
+      - ./app:/app/app
+      - ./alembic:/app/alembic
+      - ./.env:/app/.env:ro
+    environment:
+      - DATABASE_URL=postgresql://flowlog_user:flowlog_password@postgres:5432/flowlog
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - dev
+
+  # Production service
+  app-prod:
+    build:
+      context: .
+      target: runtime
+    container_name: flowlog_app_prod
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://flowlog_user:flowlog_password@postgres:5432/flowlog
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - prod
+
+volumes:
+  postgres_data:
+    driver: local
