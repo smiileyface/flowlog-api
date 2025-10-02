@@ -8,19 +8,23 @@ WORKDIR /app
 # Enable bytecode compilation for faster startup
 ENV UV_COMPILE_BYTECODE=1
 
+# Install system dependencies for psycopg2-binary
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy dependency files
 COPY pyproject.toml uv.lock ./
 
-# Install dependencies into /app/.venv
+# Install dependencies into /app/.venv (includes main dependencies like alembic, psycopg2-binary)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project --no-dev
+    uv sync --frozen --no-dev
 
 # Copy application code
 COPY . .
 
-# Install the project itself
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+# Verify installation worked
+RUN /app/.venv/bin/python -c "import psycopg2; import alembic; print('Dependencies OK')"
 
 # Stage 2: Development - With hot-reload and dev dependencies
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS development
@@ -58,6 +62,11 @@ FROM python:3.12-slim-bookworm AS runtime
 
 # Set working directory
 WORKDIR /app
+
+# Install runtime dependencies for PostgreSQL
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
