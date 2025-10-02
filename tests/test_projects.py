@@ -2,8 +2,6 @@
 Tests for Project CRUD operations and relationships.
 """
 
-import pytest
-
 
 class TestProjectCRUD:
     """Test basic CRUD operations for projects."""

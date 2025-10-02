@@ -2,8 +2,6 @@
 Tests for main application endpoints.
 """
 
-import pytest
-
 
 class TestMainEndpoints:
     """Test core application endpoints."""

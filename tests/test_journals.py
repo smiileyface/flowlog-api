@@ -2,8 +2,6 @@
 Tests for Journal CRUD operations and relationships.
 """
 
-import pytest
-
 
 class TestJournalCRUD:
     """Test basic CRUD operations for journals."""

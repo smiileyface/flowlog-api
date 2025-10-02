@@ -2,8 +2,6 @@
 Tests for AI Job CRUD operations.
 """
 
-import pytest
-
 
 class TestAIJobCRUD:
     """Test basic CRUD operations for AI jobs."""

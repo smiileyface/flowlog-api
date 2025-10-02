@@ -4,7 +4,7 @@ Pytest configuration and fixtures for testing.
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.db.session import get_db

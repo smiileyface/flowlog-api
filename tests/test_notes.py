@@ -2,8 +2,6 @@
 Tests for Note CRUD operations and tag relationships.
 """
 
-import pytest
-
 
 class TestNoteCRUD:
     """Test basic CRUD operations for notes."""

@@ -2,8 +2,6 @@
 Tests for Tag CRUD operations and note relationships.
 """
 
-import pytest
-
 
 class TestTagCRUD:
     """Test basic CRUD operations for tags."""
