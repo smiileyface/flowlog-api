@@ -4,8 +4,9 @@
 app = 'flowlog-api'
 primary_region = 'sjc'  # San Jose - change to your preferred region
 
-[build]
-  image = 'ghcr.io/smiileyface/flowlog-api:latest'
+# Note: Image is specified during deployment via --image flag
+# [build]
+#   image = 'ghcr.io/smiileyface/flowlog-api:latest'
 
 [deploy]
   release_command = 'alembic upgrade head'  # Run migrations on deploy
